@@ -29,16 +29,43 @@ public class PlayerBehavior : MonoBehaviour {
 		Debug.DrawLine(start,end,Color.blue);
 		return Physics2D.Linecast(start,end,groundLayer);
 	}
+	private const UnityEngine.KeyCode FIRE_KEY = KeyCode.X;
+	private const float BULLET_FORCE = 300f;
+	private const float FIRE_CD = 0.3f;
+	private float fireTimer;
 	private void Fire()
 	{
-		GameObject tempBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-		Rigidbody tempRigidBodyBulllet = tempBullet.GetComponent<Rigidbody>();
-		tempRigidBodyBulllet.AddForce(tempRigidBodyBulllet.transform.right * 10000f);
-		Destroy(tempBullet, 1f);
+		if(!Input.GetKey(FIRE_KEY)) return;
+
+		if(Time.time - fireTimer < FIRE_CD) return;
+		fireTimer = Time.time;
+
+		float initBulletPosX = 0f;
+		if(isFaceRight) initBulletPosX = 0.2f;
+		else initBulletPosX = -0.2f;
+
+		GameObject tempBullet = Instantiate(bullet, new Vector3(gameObject.transform.position.x + initBulletPosX, gameObject.transform.position.y, gameObject.transform.position.z) ,Quaternion.identity) as GameObject;
+		Rigidbody2D tempRigidBodyBulllet = tempBullet.GetComponent<Rigidbody2D>();
+
+		// tempRigidBodyBulllet.AddForce(tempRigidBodyBulllet.transform.right * 0.01f);
+		if(isFaceRight) tempRigidBodyBulllet.AddForce(tempRigidBodyBulllet.transform.right * BULLET_FORCE);
+		else tempRigidBodyBulllet.AddForce(-tempRigidBodyBulllet.transform.right * BULLET_FORCE);
+		
+		Destroy(tempBullet, 2);
 	}
 	private bool previousUpInput;
+	private bool isFaceRight;
+	private UnityEngine.KeyCode previousInputKey;
+	private float sprintTimer;
+	private const float SPRINT_CD = 0.1f;
+	private bool sprintMode;
 	private void Move()
 	{
+		if(!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
+		{
+			return;
+		}
+
 		playerRigidBody = player.GetComponent<Rigidbody2D>();
 
 		float MoveSpeed_ver = 0f;
@@ -47,7 +74,8 @@ public class PlayerBehavior : MonoBehaviour {
 		{
 			Jump();
 			jumpingCalcForce += (Physics2D.gravity.y);
-			Debug.Log(jumpingCalcForce);
+			previousInputKey = KeyCode.UpArrow;
+			// Debug.Log(jumpingCalcForce);
 		}
 		else if(!Input.GetKey(KeyCode.UpArrow) && previousUpInput)
 		{
@@ -57,35 +85,66 @@ public class PlayerBehavior : MonoBehaviour {
 		{
  			MoveSpeed_ver = -this.speed;
 			MoveSpeed_hor = 0f;
+			previousInputKey = KeyCode.DownArrow;
 		}
 		if(Input.GetKey(KeyCode.LeftArrow))
 		{
-			MoveSpeed_hor = -this.speed;
+			isFaceRight = false;
 			MoveSpeed_ver = 0f;
+
+			if((Time.time - sprintTimer) > 0.03f && (Time.time - sprintTimer) < SPRINT_CD && previousInputKey == KeyCode.LeftArrow)
+			{
+				sprintMode = true;
+			}
+			else if((Time.time - sprintTimer) >= 0.03f)
+			{
+				sprintMode = false;
+			}
+
+			if(sprintMode)	MoveSpeed_hor = -(this.speed * 2);
+			else MoveSpeed_hor = -(this.speed);
+
+
+			previousInputKey = KeyCode.LeftArrow;
 		}
 		if(Input.GetKey(KeyCode.RightArrow))
 		{
-			MoveSpeed_hor = this.speed;
+			isFaceRight = true;
 			MoveSpeed_ver = 0f;
+
+			if((Time.time - sprintTimer) > 0.03f && (Time.time - sprintTimer) < SPRINT_CD && previousInputKey == KeyCode.RightArrow)
+			{
+				sprintMode = true;
+			}
+			else if((Time.time - sprintTimer) >= 0.03f)
+			{
+				sprintMode = false;
+			}
+
+			if(sprintMode)	MoveSpeed_hor = (this.speed * 2);
+			else MoveSpeed_hor = (this.speed);
+
+			previousInputKey = KeyCode.RightArrow;
 		}
+
 		previousUpInput = Input.GetKey(KeyCode.UpArrow);
+		sprintTimer = Time.time;
 
 		transform.Translate(MoveSpeed_hor,MoveSpeed_ver,0);
-		
 	}
 	private bool isJumping;
 	private int jumpingFrame;
-	private const float jumpingForce = 300f;
-	private const float jumpingAddingForce = 0f;
+	private const float JUMPING_FORCE = 300f;
+	private const float JUMPING_ADDING_FORCE = 0f;
 	private float jumpingCalcForce;
 	private void Jump()
 	{
 		if(isGrounded() && !isJumping)
 		{
 			// Debug.Log("jump");
-			playerRigidBody.AddForce(gameObject.transform.up * jumpingForce);
+			playerRigidBody.AddForce(gameObject.transform.up * JUMPING_FORCE);
 			jumpingFrame = 0;
-			jumpingCalcForce = jumpingForce;
+			jumpingCalcForce = JUMPING_FORCE;
 			isJumping = true;
 		}
 		else
@@ -93,8 +152,8 @@ public class PlayerBehavior : MonoBehaviour {
 			jumpingFrame++;
 			if(jumpingFrame < 20) 
 			{
-				playerRigidBody.AddForce(gameObject.transform.up * jumpingAddingForce);
-				jumpingCalcForce += jumpingAddingForce;
+				playerRigidBody.AddForce(gameObject.transform.up * JUMPING_ADDING_FORCE);
+				jumpingCalcForce += JUMPING_ADDING_FORCE;
 			}
 			// else Debug.Log("done");
 			isJumping = false;
@@ -105,7 +164,8 @@ public class PlayerBehavior : MonoBehaviour {
 	private float[] attackCoolDown = new float[] {0.3f,0.3f,0.5f};
 	private int attackCombo = 0;
 	private bool attackFlag = false;
-	private UnityEngine.KeyCode attackKey = KeyCode.X;
+	private UnityEngine.KeyCode attackKey = KeyCode.Z;
+	private Vector2 originHitBoxPosition;
 	private void Attack(Collider2D col)
 	{
 		if(attackFlag)
@@ -119,6 +179,15 @@ public class PlayerBehavior : MonoBehaviour {
 			}
 		}
 		if(!Input.GetKey(attackKey)) return;
+
+		if(isFaceRight)
+		{
+			playerHitBox.offset = this.originHitBoxPosition;
+		}
+		else
+		{
+			playerHitBox.offset = new Vector2(-this.originHitBoxPosition.x, this.originHitBoxPosition.y);
+		}
 
 		if(!attackFlag)
 		{
@@ -179,6 +248,11 @@ public class PlayerBehavior : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		ifFired = false;
+		fireTimer = Time.time;
+		isFaceRight = true;
+		sprintTimer = Time.time;
+		sprintMode = false;
+		originHitBoxPosition = playerHitBox.offset;
 	}
 	// Update is called once per frame
 	void Update () {
@@ -187,21 +261,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 		Move();
 		Attack(attackHitBoxes[0]);
+		Fire();
 		Defend();
-
-		// if(ifFired)
-		// {
-		// 	FireClock++;
-		// 	if(FireClock > 60) 
-		// 	{
-		// 		FireClock = 0;
-		// 		ifFired = false;
-		// 	}
-		// }
-		// if(Input.GetKey(KeyCode.Z) && !ifFired)
-		// {
-		// 	Fire();
-		// 	ifFired = true;
-		// }
 	}
 }

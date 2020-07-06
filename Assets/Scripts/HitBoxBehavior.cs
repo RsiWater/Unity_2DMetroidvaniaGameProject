@@ -7,7 +7,7 @@ public class HitBoxBehavior : MonoBehaviour
     private bool ifCollider;
     public void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("detected " + other.name);
+        // Debug.Log("detected " + other.name);
         ifCollider = true;
     }
     public void OnTriggerStay2D(Collider2D other)
@@ -16,7 +16,7 @@ public class HitBoxBehavior : MonoBehaviour
     }
     public void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("exit Collision");
+        // Debug.Log("exit Collision");
         ifCollider = false;
     }
 

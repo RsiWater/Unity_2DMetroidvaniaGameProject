@@ -81,7 +81,7 @@ public class SmileBehavior : EnemyBehavior
     void Start()
     {
         attackingTimeInterval = 2.5f;
-        theAttackRangeRadius = 10f;
+        theAttackRangeRadius = 5f;
         enemyRigidbody = gameObject.GetComponent<Rigidbody2D>();
         smileStartAttackTime = Time.time;
     }
