@@ -56,7 +56,7 @@
      <Compile Include="Assets\Scripts\PlayerHitBoxBehavior.cs" />
      <Compile Include="Assets\Scripts\PlayerStaticValue.cs" />
      <Compile Include="Assets\Scripts\PlayerUI.cs" />
-     <Compile Include="Assets\Scripts\SmileBehavior.cs" />
+     <Compile Include="Assets\Scripts\SlimeBehavior.cs" />
      <Compile Include="Assets\Scripts\StaticValueControl.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>G:/Unity/2D_Yali_Game/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

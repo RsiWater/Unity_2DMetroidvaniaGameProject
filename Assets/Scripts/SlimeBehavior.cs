@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SmileBehavior : EnemyBehavior
+public class SlimeBehavior : EnemyBehavior
 {
     public GameObject Bullet;
     // [Header("攻擊速度")]
@@ -14,38 +14,38 @@ public class SmileBehavior : EnemyBehavior
     [Header("子彈力道")]
     [Range(50f,600f)]
     public float BulletForce = 100f;
-    private float smileJumpingTimer;
-    private float smileStartAttackTime;
-    private float smileAttackTimer;
-    private const float smileJumpingForce = 200f;
-    private bool MovingMode; //if MovingMode is true, then Smile is Attacking.
+    private float slimeJumpingTimer;
+    private float slimeStartAttackTime;
+    private float slimeAttackTimer;
+    private const float slimeJumpingForce = 200f;
+    private bool MovingMode; //if MovingMode is true, then slime is Attacking.
     
-    private void SmileAI()
+    private void slimeAI()
     {
         getDistanceBetweenPlayer();
         Attack();
-        smileJumpingTimer = Time.time - startTime;
-        if(smileJumpingTimer < MovingTimer) return;
+        slimeJumpingTimer = Time.time - startTime;
+        if(slimeJumpingTimer < MovingTimer) return;
         startTime = Time.time;
-        if(MovingMode) SmileAttackMode();
+        if(MovingMode) slimeAttackMode();
         else Move();
     }
     protected override void Move()
     {
         if(ifPlayerIsAtRightSide())
         {
-            enemyRigidbody.AddForce(gameObject.transform.up * smileJumpingForce);
-            enemyRigidbody.AddForce(gameObject.transform.right * ( smileJumpingForce / 2 ));
+            enemyRigidbody.AddForce(gameObject.transform.up * slimeJumpingForce);
+            enemyRigidbody.AddForce(gameObject.transform.right * ( slimeJumpingForce / 2 ));
         }
         else
         {
-            enemyRigidbody.AddForce(gameObject.transform.up * smileJumpingForce);
-            enemyRigidbody.AddForce(gameObject.transform.right * -( smileJumpingForce / 2 ));
+            enemyRigidbody.AddForce(gameObject.transform.up * slimeJumpingForce);
+            enemyRigidbody.AddForce(gameObject.transform.right * -( slimeJumpingForce / 2 ));
         }
     }
-    private void SmileAttackMode()
+    private void slimeAttackMode()
     {
-
+        
     }
     protected override void Attack()
     {
@@ -56,9 +56,9 @@ public class SmileBehavior : EnemyBehavior
         }
         else MovingMode = true;
 
-        smileAttackTimer = Time.time - smileStartAttackTime;
-        if(smileAttackTimer < attackingTimeInterval) return;
-        smileStartAttackTime = Time.time;
+        slimeAttackTimer = Time.time - slimeStartAttackTime;
+        if(slimeAttackTimer < attackingTimeInterval) return;
+        slimeStartAttackTime = Time.time;
 
         Shoot();
     }
@@ -83,11 +83,11 @@ public class SmileBehavior : EnemyBehavior
         attackingTimeInterval = 2.5f;
         theAttackRangeRadius = 5f;
         enemyRigidbody = gameObject.GetComponent<Rigidbody2D>();
-        smileStartAttackTime = Time.time;
+        slimeStartAttackTime = Time.time;
     }
     void Update()
     {
-        SmileAI();
+        slimeAI();
     }
 
 }

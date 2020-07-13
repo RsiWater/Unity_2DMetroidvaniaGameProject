@@ -161,12 +161,16 @@ public class PlayerBehavior : MonoBehaviour {
 			// else Debug.Log("done");
 		}
 	}
+	private List<float> meleeDamage = new List<float>{20f, 30f, 40f};
 	private float attackStartTime;
 	private float attackTimer;
 	private float[] attackCoolDown = new float[] {0.3f,0.3f,0.5f};
+	public float[] getAttackCD() {return this.attackCoolDown;}
 	private int attackCombo = 0;
+	public int getAttackCombo() {return this.attackCombo;}
 	private bool attackFlag = false;
 	private UnityEngine.KeyCode attackKey = KeyCode.Z;
+	public UnityEngine.KeyCode getAttackKey() {return this.attackKey;}
 	private Vector2 originHitBoxPosition;
 	private void Attack(Collider2D col)
 	{
@@ -174,7 +178,8 @@ public class PlayerBehavior : MonoBehaviour {
 		{
 			attackTimer = Time.time - attackStartTime;
 			if(attackTimer > 2)
-			{		
+			{
+				Debug.Log("restart");
 				attackTimer = 0;
 				attackCombo = 0;
 				attackFlag = false;
@@ -197,7 +202,7 @@ public class PlayerBehavior : MonoBehaviour {
 			attackTimer = attackCoolDown[0] + 1f;
 			attackStartTime = Time.time;
 		}
-		if(attackTimer < attackCoolDown[attackCombo]) return;
+		if(attackCombo >= this.meleeDamage.Count || attackTimer < attackCoolDown[attackCombo]) return;
 		attackCombo++;
 		attackStartTime = Time.time;
 		
@@ -207,24 +212,26 @@ public class PlayerBehavior : MonoBehaviour {
 		{
 			if(c.transform.parent.parent == transform) continue;
 			float damage;
+			
+			damage = this.meleeDamage[attackCombo-1];
 
-			switch(attackCombo)
-			{
-				case 1:
-				damage = 20;
-				break;
-				case 2:
-				damage = 30;
-				break;
-				case 3:
-				damage = 40;
-				attackCombo = 0;
-				break;
-				default:
-				attackCombo = 0;
-				damage = 0;
-				break;
-			}
+			// switch(attackCombo)
+			// {
+			// 	case 1:
+			// 	damage = 20;
+			// 	break;
+			// 	case 2:
+			// 	damage = 30;
+			// 	break;
+			// 	case 3:
+			// 	damage = 40;
+			// 	attackCombo = 0;
+			// 	break;
+			// 	default:
+			// 	attackCombo = 0;
+			// 	damage = 0;
+			// 	break;
+			// }
 
 			// switch(c.name)
 			// {
@@ -237,7 +244,7 @@ public class PlayerBehavior : MonoBehaviour {
 			// }
 
 			c.SendMessage("TakeDamage",damage);
-			// Debug.Log(attackCombo);
+			Debug.Log(attackCombo);
 		}
 
 	}
