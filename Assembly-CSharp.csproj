@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\PlayerBehavior.cs" />
      <Compile Include="Assets\Scripts\PlayerHitBoxBehavior.cs" />
      <Compile Include="Assets\Scripts\PlayerStaticValue.cs" />
+     <Compile Include="Assets\Scripts\PlayerUI.cs" />
      <Compile Include="Assets\Scripts\SmileBehavior.cs" />
      <Compile Include="Assets\Scripts\StaticValueControl.cs" />
  <Reference Include="Unity.Timeline.Editor">
@@ -297,9 +298,6 @@
  <Reference Include="UnityEditor">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.19f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
  </Reference>
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>G:/Unity/2D_Yali_Game/Library/PackageCache/com.unity.ads@2.0.8/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="Unity.Analytics.Editor">
  <HintPath>G:/Unity/2D_Yali_Game/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
  </Reference>
@@ -308,9 +306,6 @@
  </Reference>
  <Reference Include="Unity.Analytics.Tracker">
  <HintPath>G:/Unity/2D_Yali_Game/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Purchasing">
- <HintPath>G:/Unity/2D_Yali_Game/Library/PackageCache/com.unity.purchasing@2.0.6/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.19f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
