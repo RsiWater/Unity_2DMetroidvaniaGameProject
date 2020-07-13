@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4476387, g: 0.49761188, b: 0.5753682, a: 1}
+  m_IndirectSpecularColor: {r: 0.447639, g: 0.49761224, b: 0.57536834, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -315,6 +315,7 @@ GameObject:
   - component: {fileID: 172383920}
   - component: {fileID: 172383919}
   - component: {fileID: 172383925}
+  - component: {fileID: 172383926}
   - component: {fileID: 172383922}
   - component: {fileID: 172383923}
   - component: {fileID: 172383924}
@@ -333,7 +334,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 172383915}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.203, y: -108.95, z: -0.06}
+  m_LocalPosition: {x: 3.203, y: -107.243, z: -0.06}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 1128204053}
@@ -535,6 +536,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackIcon: {fileID: 571874826}
   attackIconBG: {fileID: 1196924614}
+  player: {fileID: 172383920}
+--- !u!114 &172383926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172383915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1d9fd51347a74d42b9047162fef922b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &211871179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,9 +1247,10 @@ GameObject:
   - component: {fileID: 705419000}
   - component: {fileID: 705419001}
   - component: {fileID: 705419003}
+  - component: {fileID: 705419004}
   m_Layer: 10
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1342,6 +1357,18 @@ MonoBehaviour:
   currentHealthBar: {fileID: 1012355279}
   ratioText: {fileID: 1531373058}
   maxinumHP: 1000
+--- !u!114 &705419004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705418998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfc6d04a998058e47a25fe7154893649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &738146253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,11 +1488,11 @@ GameObject:
   - component: {fileID: 949547729}
   - component: {fileID: 949547732}
   - component: {fileID: 949547728}
-  - component: {fileID: 949547733}
   - component: {fileID: 949547727}
+  - component: {fileID: 949547734}
   m_Layer: 10
   m_Name: SmileCube
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1605,7 +1632,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &949547733
+--- !u!114 &949547734
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1614,12 +1641,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 949547725}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0494a77f79fffab49823be8d1a83af72, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d9b774076dbc43458b5897be80090d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 172383915}
   attackingTimeInterval: 2.5
-  movingSpeed: 0.1
+  movingSpeed: 0.5
   Bullet: {fileID: 1559349908442000, guid: 1b5aeed15754e8649825b6ad8d0cf134, type: 3}
   MovingTimer: 3
   BulletForce: 300
@@ -2616,7 +2643,7 @@ GameObject:
   - component: {fileID: 1844947820}
   m_Layer: 10
   m_Name: BatCube
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -23,7 +23,13 @@ public class SlimeBehavior : EnemyBehavior
     private void slimeAI()
     {
         getDistanceBetweenPlayer();
-        Attack();
+        if(!ifPlayerIsInTheAttackRange())
+        {
+            MovingMode = false;
+        }
+        else MovingMode = true;
+
+        // Attack();
         slimeJumpingTimer = Time.time - startTime;
         if(slimeJumpingTimer < MovingTimer) return;
         startTime = Time.time;
@@ -45,17 +51,10 @@ public class SlimeBehavior : EnemyBehavior
     }
     private void slimeAttackMode()
     {
-        
-    }
+        this.Attack();
+    }   
     protected override void Attack()
     {
-        if(!ifPlayerIsInTheAttackRange())
-        {
-            MovingMode = false;
-            return;
-        }
-        else MovingMode = true;
-
         slimeAttackTimer = Time.time - slimeStartAttackTime;
         if(slimeAttackTimer < attackingTimeInterval) return;
         slimeStartAttackTime = Time.time;

@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\HitBoxBehavior.cs" />
      <Compile Include="Assets\Scripts\MainCamaraBehavior.cs" />
      <Compile Include="Assets\Scripts\PlayerBehavior.cs" />
+     <Compile Include="Assets\Scripts\PlayerColliderBehavior.cs" />
      <Compile Include="Assets\Scripts\PlayerHitBoxBehavior.cs" />
      <Compile Include="Assets\Scripts\PlayerStaticValue.cs" />
      <Compile Include="Assets\Scripts\PlayerUI.cs" />
