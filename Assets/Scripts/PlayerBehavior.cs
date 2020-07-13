@@ -16,6 +16,7 @@ public class PlayerBehavior : MonoBehaviour {
 	[Range (0,5f)]
 	public float distance;
 	public Collider2D[] attackHitBoxes;
+	public PlayerUI playerUI;
 	private HitBoxBehavior hitBoxBehavior;
 	private Rigidbody2D playerRigidBody;
 	private float frame;
@@ -53,16 +54,24 @@ public class PlayerBehavior : MonoBehaviour {
 		
 		Destroy(tempBullet, 2);
 	}
-	private bool previousUpInput;
+	private bool isJumping;
+
 	private bool isFaceRight;
 	private UnityEngine.KeyCode previousInputKey;
 	private float sprintTimer;
 	private const float SPRINT_CD = 0.1f;
 	private bool sprintMode;
+	public bool getSprintMode(){ return this.sprintMode; }
 	private void Move()
 	{
 		if(!Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
 		{
+			if(isJumping)
+			{
+				isJumping = false;
+				Debug.Log("down");
+				if(jumpingCalcForce > 0)playerRigidBody.AddForce(gameObject.transform.up * -(jumpingCalcForce));
+			}
 			return;
 		}
 
@@ -75,11 +84,8 @@ public class PlayerBehavior : MonoBehaviour {
 			Jump();
 			jumpingCalcForce += (Physics2D.gravity.y);
 			previousInputKey = KeyCode.UpArrow;
+			isJumping = true;
 			// Debug.Log(jumpingCalcForce);
-		}
-		else if(!Input.GetKey(KeyCode.UpArrow) && previousUpInput)
-		{
-			if(jumpingCalcForce > 0)playerRigidBody.AddForce(gameObject.transform.up * -(jumpingCalcForce));
 		}
 		if(Input.GetKey(KeyCode.DownArrow))
 		{
@@ -127,12 +133,10 @@ public class PlayerBehavior : MonoBehaviour {
 			previousInputKey = KeyCode.RightArrow;
 		}
 
-		previousUpInput = Input.GetKey(KeyCode.UpArrow);
 		sprintTimer = Time.time;
 
 		transform.Translate(MoveSpeed_hor,MoveSpeed_ver,0);
 	}
-	private bool isJumping;
 	private int jumpingFrame;
 	private const float JUMPING_FORCE = 300f;
 	private const float JUMPING_ADDING_FORCE = 0f;
@@ -145,7 +149,6 @@ public class PlayerBehavior : MonoBehaviour {
 			playerRigidBody.AddForce(gameObject.transform.up * JUMPING_FORCE);
 			jumpingFrame = 0;
 			jumpingCalcForce = JUMPING_FORCE;
-			isJumping = true;
 		}
 		else
 		{
@@ -156,7 +159,6 @@ public class PlayerBehavior : MonoBehaviour {
 				jumpingCalcForce += JUMPING_ADDING_FORCE;
 			}
 			// else Debug.Log("done");
-			isJumping = false;
 		}
 	}
 	private float attackStartTime;

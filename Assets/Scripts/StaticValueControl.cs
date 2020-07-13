@@ -39,7 +39,7 @@ public class StaticValueControl : MonoBehaviour
         {
             currentHP -= damage;
         }
-        if(currentHP < 0)
+        if(currentHP <= 0)
         {
             Debug.Log(gameObject.name+" is dead");
             ObjectDead();
