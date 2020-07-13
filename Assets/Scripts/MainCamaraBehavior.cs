@@ -8,9 +8,11 @@ public class MainCamaraBehavior : MonoBehaviour {
 	[Range(0,10f)]
 	public float distanceX;
 	public float cameraSpeed;
+	public PlayerBehavior player;
 
 	// Use this for initialization
 	void Start () {
+		Debug.Log(player.speed);
 	}
 	
 	// Update is called once per frame
@@ -19,21 +21,23 @@ public class MainCamaraBehavior : MonoBehaviour {
 		float offsetY = gameObject.transform.position.y - target.transform.position.y;
 		if(offsetX > distanceX)
 		{
-			gameObject.transform.Translate(-cameraSpeed,0f,0f);
+			if(player.getSprintMode()) gameObject.transform.Translate(-player.speed*2,0f,0f);
+			else gameObject.transform.Translate(-player.speed,0f,0f);
 		}
 		else if(offsetX < -distanceX)
 		{
-			gameObject.transform.Translate(cameraSpeed,0f,0f);
+			if(player.getSprintMode()) gameObject.transform.Translate(player.speed*2,0f,0f);
+			else gameObject.transform.Translate(player.speed,0f,0f);
 		}
 
 		
 		if(offsetY > 7.5f)
 		{
-			gameObject.transform.Translate(0f,-cameraSpeed,0f);
+			gameObject.transform.Translate(0f,-player.speed,0f);
 		}
 		else if(offsetY < -7.5f)
 		{
-			gameObject.transform.Translate(0f,cameraSpeed,0f);
+			gameObject.transform.Translate(0f,player.speed,0f);
 		}
 	}
 }
