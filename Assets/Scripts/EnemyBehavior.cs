@@ -15,6 +15,8 @@ public abstract class EnemyBehavior : MonoBehaviour {
     protected float theAttackRangeRadius = 10f;
     public float movingSpeed = 0.5f;
     protected float startTime;
+    protected abstract void TakeDamage();
+    protected abstract void stunned(float sec);
     protected bool ifPlayerIsAtRightSide()
     {
         if(theDistanceBetweenPlayerX < 0) return true;

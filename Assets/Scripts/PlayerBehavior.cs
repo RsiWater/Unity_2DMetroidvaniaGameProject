@@ -60,6 +60,7 @@ public class PlayerBehavior : MonoBehaviour {
 	private UnityEngine.KeyCode previousInputKey;
 	private float sprintTimer;
 	private const float SPRINT_CD = 0.1f;
+	private const float SPRINT_POWER = 1.5f;
 	private bool sprintMode;
 	public bool getSprintMode(){ return this.sprintMode; }
 	private void Move()
@@ -69,11 +70,12 @@ public class PlayerBehavior : MonoBehaviour {
 			if(isJumping)
 			{
 				isJumping = false;
-				Debug.Log("down");
+				// Debug.Log("down");
 				if(jumpingCalcForce > 0)playerRigidBody.AddForce(gameObject.transform.up * -(jumpingCalcForce));
 			}
 			return;
 		}
+		else if((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow)) && isJumping && isGrounded() && jumpingFrame >= 20) isJumping = false;
 
 		playerRigidBody = player.GetComponent<Rigidbody2D>();
 
@@ -107,7 +109,7 @@ public class PlayerBehavior : MonoBehaviour {
 				sprintMode = false;
 			}
 
-			if(sprintMode)	MoveSpeed_hor = -(this.speed * 2);
+			if(sprintMode)	MoveSpeed_hor = -(this.speed * SPRINT_POWER);
 			else MoveSpeed_hor = -(this.speed);
 
 
@@ -127,7 +129,7 @@ public class PlayerBehavior : MonoBehaviour {
 				sprintMode = false;
 			}
 
-			if(sprintMode)	MoveSpeed_hor = (this.speed * 2);
+			if(sprintMode)	MoveSpeed_hor = (this.speed * SPRINT_POWER);
 			else MoveSpeed_hor = (this.speed);
 
 			previousInputKey = KeyCode.RightArrow;
@@ -145,7 +147,6 @@ public class PlayerBehavior : MonoBehaviour {
 	{
 		if(isGrounded() && !isJumping)
 		{
-			// Debug.Log("jump");
 			playerRigidBody.AddForce(gameObject.transform.up * JUMPING_FORCE);
 			jumpingFrame = 0;
 			jumpingCalcForce = JUMPING_FORCE;

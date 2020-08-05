@@ -36,6 +36,14 @@ public class SlimeBehavior : EnemyBehavior
         if(MovingMode) slimeAttackMode();
         else Move();
     }
+    protected override void TakeDamage()
+    {
+        stunned(3f);
+    }
+    protected override void stunned(float sec)
+    {
+        this.startTime = Time.time;
+    }
     protected override void Move()
     {
         if(ifPlayerIsAtRightSide())

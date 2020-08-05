@@ -15,6 +15,14 @@ public class BatBehavior : EnemyBehavior
         Attack();
         Move();
     }
+    protected override void TakeDamage()
+    {
+
+    }
+    protected override void stunned(float sec)
+    {
+        
+    }
     protected override void Attack()
     {
         if(!ifPlayerIsInTheAttackRange()) return;
